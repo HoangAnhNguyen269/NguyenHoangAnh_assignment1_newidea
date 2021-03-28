@@ -26,11 +26,11 @@ public class Car {
         this.DEFAULT_ASSIGNED_SPEED = this.speed;
         if(this.currentRoad.sameY ==true) //when all cars on the road have the same y value
         {
-            this.position[1] = this.currentRoad.getStartLocation[1];
+            this.position[1] = this.currentRoad.getStartLocation()[1];
             this.position[0] = this.length; //default the car is put on the start of the road
             this.carRoadPosition = this.position[0];
         } else{
-            this.position[0] = this.currentRoad.getStartLocation[1];
+            this.position[0] = this.currentRoad.getStartLocation()[1];
             this.position[1] = this.length;
             this.carRoadPosition = this.position[1];
         }
@@ -55,7 +55,7 @@ public class Car {
             if (this.currentRoad.getLength() <= this.getRoadPosition() && !this.currentRoad.getConnectedRoadsEnd().isEmpty()) {
                 float newPosition = this.carRoadPosition - this.currentRoad.getLength(); // position in the new road equals to the distance that the car has crossed
                 Road newRoad = this.currentRoad.getConnectedRoadsEnd().get(NEXT_ROAD_INDEX);
-                if(newRoad.getStartLocation().equals(this.currentRoad.getEndLocation)){
+                if(newRoad.getStartLocation().equals(this.currentRoad.getEndLocation())){
                     this.speed = Math.abs(this.speed);
                 }
                 else{
@@ -90,7 +90,7 @@ public class Car {
             if (this.getRoadPosition() <=0 && !this.currentRoad.getConnectedRoadsStart().isEmpty()){
                 float newPosition = this.carRoadPosition;
                 Road newRoad = this.currentRoad.getConnectedRoadsStart().get(NEXT_ROAD_INDEX);
-                if(newRoad.getStartLocation().equals(this.currentRoad.getStartLocation)){
+                if(newRoad.getStartLocation().equals(this.currentRoad.getStartLocation())){
                     this.speed = Math.abs(this.speed);
                 }
                 else{
@@ -110,7 +110,7 @@ public class Car {
                 this.carRoadPosition =0;
                 RoadPositionToPosition();
                 }
-            else{RoadPositionToPosition()}
+            else{RoadPositionToPosition();}
             for (Car car:this.currentRoad.getNegativeCar()){
                 for (Car posCar: this.currentRoad.getPositiveCar()){
                     if(this.carRoadPosition >= car.getRoadPosition() && this.carRoadPosition < (car.getRoadPosition()+car.getLength()) && posCar.getRoadPosition() >= car.getRoadPosition() && posCar.getRoadPosition() < (car.getRoadPosition()-car.getLength()))
@@ -129,11 +129,11 @@ public class Car {
     public void RoadPositionToPosition(){
         if(this.currentRoad.sameY ==true) //when all cars on the road have the same y value
         {
-            this.position[1] = this.currentRoad.getStartLocation[1];
-            this.position[0] = this.currentRoad.getStartLocation[0]+this.carRoadPosition;
+            this.position[1] = this.currentRoad.getStartLocation()[1];
+            this.position[0] = this.currentRoad.getStartLocation()[0]+this.carRoadPosition;
         } else{
-            this.position[0] = this.currentRoad.getStartLocation[1];
-            this.position[1] = this.currentRoad.getStartLocation[0]+this.carRoadPosition;
+            this.position[0] = this.currentRoad.getStartLocation()[1];
+            this.position[1] = this.currentRoad.getStartLocation()[0]+this.carRoadPosition;
         }
     }
     public void printCarStatus() {
@@ -190,11 +190,5 @@ public class Car {
 
     public void setId(String id) {
         this.id = id;
-    }
-    public void setVector(int vector) {
-        this.carVector = vector;
-    }
-    public int getCarVector() {
-        return this.carVector;
     }
 }
