@@ -46,7 +46,7 @@ public class Car {
                 this.speed = this.DEFAULT_ASSIGNED_SPEED;
             }}
         if(Math.abs(this.speed) > this.currentRoad.getSpeedLimit()) {
-            this.speed = this.speed* this.currentRoad.getSpeedLimit()/Math.abs(this.speed); //set speed limit to that of currentRoad
+            this.speed =  this.speed/Math.abs(this.speed) * this.currentRoad.getSpeedLimit(); //set speed limit to that of currentRoad
         }
         if(stopSign == true) {
             this.speed = STOPPED; //red light stop

@@ -17,17 +17,18 @@ public class Road {
     //private static CityMap Map;
     public boolean sameY; // whether startLocation and endLocation has the same y axis
 
-    public Road(String id, int speedLimit, int length, int[] startLocation, int[] endLocation) {
+    public Road(String id, int speedLimit, int[] startLocation, int[] endLocation) {
         this.id = "road_" + id;
         this.speedLimit = speedLimit;
-        this.length = length;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         if(this.startLocation[1]==this.endLocation[1]){
             this.sameY =true;
+            this.length = Math.abs(this.startLocation[0]-this.endLocation[0]);
         }
         else{
             this.sameY=false;
+            this.length = Math.abs(this.startLocation[1]-this.endLocation[1]);
         }
 
     }
@@ -51,10 +52,6 @@ public class Road {
 
     public int getLength() {
         return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
     }
 
     public String printStartLocation() {
@@ -119,7 +116,7 @@ public class Road {
         this.connectedRoadsStart = connectedRoadsStart;
     }
     public ArrayList<Car> getPositiveCar(){
-        ArrayList<Car> positiveCar = null;
+        ArrayList<Car> positiveCar = new ArrayList<Car>();
         for(Car car:this.carsOnRoad){
             if(car.getSpeed()>0){
                 positiveCar.add(car);
@@ -128,7 +125,7 @@ public class Road {
         return positiveCar;
     }
     public ArrayList<Car> getNegativeCar(){
-        ArrayList<Car> negativeCar = null;
+        ArrayList<Car> negativeCar= new ArrayList<Car>();
         for(Car car:this.carsOnRoad){
             if(car.getSpeed()<0){
                 negativeCar.add(car);
