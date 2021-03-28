@@ -14,7 +14,7 @@ public class Car {
     private float carRoadPosition;//The position of the car if we consider only the road containing the car only
     //remember to create method that change carRoadPosition to position
     private Road currentRoad; // current Road object
-    private static int DEFAULT_ASSIGNED_SPEED ; //store the assigned speed from user when we change the speed to 0
+
 
     public Car(String id, Road currentRoad) {
         this.id = "car_" + id;
