@@ -15,8 +15,6 @@ public class Road {
     // If we turn right, the roadVector ="right", turn left ->roadVector ="left" and straight forward roadVector ="straight"
     private static String roadVector;
     //private static CityMap Map;
-    private ArrayList<Car> positiveCar;
-    private ArrayList<Car> negativeCar;
     public boolean sameY; // whether startLocation and endLocation has the same y axis
 
     public Road(String id, int speedLimit, int length, int[] startLocation, int[] endLocation) {
@@ -25,6 +23,12 @@ public class Road {
         this.length = length;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
+        if(this.startLocation[1]==this.endLocation[1]){
+            this.sameY =true;
+        }
+        else{
+            this.sameY=false;
+        }
 
     }
 
@@ -113,6 +117,24 @@ public class Road {
 
     public void setConnectedRoadsStart(ArrayList<Road> connectedRoadsStart) {
         this.connectedRoadsStart = connectedRoadsStart;
+    }
+    public ArrayList<Car> getPositiveCar(){
+        ArrayList<Car> positiveCar = null;
+        for(Car car:this.carsOnRoad){
+            if(car.getSpeed()>0){
+                positiveCar.add(car);
+            }
+        }
+        return positiveCar;
+    }
+    public ArrayList<Car> getNegativeCar(){
+        ArrayList<Car> negativeCar = null;
+        for(Car car:this.carsOnRoad){
+            if(car.getSpeed()<0){
+                negativeCar.add(car);
+            }
+        }
+        return negativeCar;
     }
 
 }
