@@ -138,7 +138,7 @@ public class Car {
     }
     public void printCarStatus() {
         System.out.printf("%s going:%dm/s on %s at position:%s%n", this.getId(), this.getSpeed(), this.getCurrentRoad().
-                getId(), this.getPosition());
+                getId(), this.getRoadPosition());
     }
 
     public float getLength() {
