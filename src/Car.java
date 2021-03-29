@@ -166,7 +166,7 @@ public class Car {
     }
 
     public float[] getPosition() {
-        return position;
+        return this.position;
     }
 
     public void setPosition(float[] position) {
