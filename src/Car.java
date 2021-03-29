@@ -40,7 +40,7 @@ public class Car {
     public void move() {
         boolean stopSign = false; //the boolean value tell the car when the car stop
         for(int i = 0; i<this.currentRoad.getLightsOnRoad().size(); i++){
-            if (!this.currentRoad.getLightsOnRoad().isEmpty() && this.carRoadPosition == this.currentRoad.getLightsOnRoad().get(i).getPosition() && this.currentRoad.getLightsOnRoad().get(i).getState().equals("red")) {
+            if (!this.currentRoad.getLightsOnRoad().isEmpty() && this.carRoadPosition >= this.currentRoad.getLightsOnRoad().get(i).getPosition() && this.currentRoad.getLightsOnRoad().get(i).getState().equals("red")) {
                 stopSign = true; //red light
             }else{
                 stopSign =false; //green light or there is no traffic light.
@@ -50,7 +50,11 @@ public class Car {
             this.speed =  this.speed/Math.abs(this.speed) * this.currentRoad.getSpeedLimit(); //set speed limit to that of currentRoad
         }
         if(stopSign == true) {
+            if(this.speed>0){this.carRoadPosition =this.currentRoad.getLength();}
+            else if(this.speed <0){this.carRoadPosition =0;}
+            else{}
             this.speed = STOPPED; //red light stop
+
         }else if(this.speed >0){
             this.carRoadPosition = (this.carRoadPosition + this.speed); //Now we only consider the position on the same road only
             if (this.currentRoad.getLength() <= this.getRoadPosition() && !this.currentRoad.getConnectedRoadsEnd().isEmpty()) {
