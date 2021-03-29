@@ -23,6 +23,16 @@ public class CarTest {
         assertEquals(connectedRoad, car.getCurrentRoad());
     }
     @Test
+    void testMoveToNewRoad2(){
+        Road connectedRoad3 = new Road("3",6,new int[]{-3,3}, new int[]{0,3});
+        road.getConnectedRoadsEnd().remove(connectedRoad); //On this prototype we only connect 1 road to end or start
+        road.setAConnectedRoadEnd(connectedRoad3);
+        car.setSpeed(4);
+        car.move();
+        assertEquals(1,car.getRoadPosition());
+        assertEquals(connectedRoad3, car.getCurrentRoad());
+    }
+    @Test
     void testNegativeSpeed(){
         road.setAConnectedRoadEnd(connectedRoad);
         car.setCurrentRoad(connectedRoad);
