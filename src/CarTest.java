@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CarTest {
     Road road = new Road("0", 6, new int[]{0, 0}, new int[]{0,3});
     Road connectedRoad = new Road("1",6,new int[]{0, 3}, new int[]{0,6});
-
+    Road connectedRoad2 = new Road("2",6,new int[]{0, 0}, new int[]{3,0});
     Car car = new Car("0", road);
 
     @Test
@@ -22,7 +22,26 @@ public class CarTest {
         assertEquals(2, car.getRoadPosition());
         assertEquals(connectedRoad, car.getCurrentRoad());
     }
-
+    @Test
+    void testNegativeSpeed(){
+        road.setAConnectedRoadEnd(connectedRoad);
+        car.setCurrentRoad(connectedRoad);
+        car.setRoadPosition(car.getCurrentRoad().getLength()-1);
+        car.setSpeed(-4);
+        car.move();
+        assertEquals(1,car.getRoadPosition());
+        assertEquals(road, car.getCurrentRoad());
+    }
+    @Test
+    void testNegativeSpeed2(){
+        road.setAConnectedRoadStart(connectedRoad2);
+        car.setRoadPosition(car.getCurrentRoad().getLength()-1);
+        car.setSpeed(-4);
+        car.move();
+        assertEquals(2,car.getRoadPosition());
+        assertEquals(connectedRoad2, car.getCurrentRoad());
+        assertEquals(4, car.getSpeed());
+    }
     @Test
     void getLength() {
         assertEquals(1, car.getLength());

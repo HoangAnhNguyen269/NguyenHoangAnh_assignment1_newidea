@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-
+import java.util.*;
 public class Road {
     // sameY
     private String id; //id for the road
@@ -110,6 +109,11 @@ public class Road {
 
     public void setAConnectedRoadEnd(Road connectedRoadEnd) {
         this.connectedRoadsEnd.add(connectedRoadEnd);
+        if(Arrays.equals(this.getEndLocation(),connectedRoadEnd.getStartLocation())){
+            connectedRoadEnd.getConnectedRoadsStart().add(this);
+        }else{
+            connectedRoadEnd.getConnectedRoadsEnd().add(this);
+        }
     }
 
     public ArrayList<Road> getConnectedRoadsStart() {
@@ -122,7 +126,12 @@ public class Road {
     }
 
     public void setAConnectedRoadStart(Road connectedRoadsStart) {
-        this.connectedRoadsEnd.add(connectedRoadsStart);
+        this.connectedRoadsStart.add(connectedRoadsStart);
+        if(Arrays.equals(this.getStartLocation(),connectedRoadsStart.getStartLocation())){
+            connectedRoadsStart.getConnectedRoadsStart().add(this);
+        }else{
+            connectedRoadsStart.getConnectedRoadsEnd().add(this);
+        }
     }
 
     public ArrayList<Car> getPositiveCar(){
