@@ -21,9 +21,8 @@ class BusTest {
     void testInheritance() {
         assertEquals(1, bus.getSpeed());
         assertEquals(1, bus.getRoadPosition());
-        System.out.println("hi");
-        float[] hi = bus.getPosition();
-        String hello = Arrays.toString(hi);
-        System.out.println(hello);
+        float expectOutput[] = {0f,1f};
+        assertEquals( true, Arrays.equals(expectOutput,bus.getPosition()));
+
     }
 }
