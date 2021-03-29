@@ -18,10 +18,8 @@ public class CarTest {
     void testMoveToNewRoad() { //Test if Car go out of the road and come to new
         road.setAConnectedRoadEnd(connectedRoad);
         car.setSpeed(4);
-
         car.move();
-
-        assertEquals(1, car.getRoadPosition());
+        assertEquals(2, car.getRoadPosition());
         assertEquals(connectedRoad, car.getCurrentRoad());
     }
 

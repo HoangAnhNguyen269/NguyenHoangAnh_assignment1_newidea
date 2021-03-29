@@ -1,4 +1,5 @@
 import java.lang.*;
+import java.util.*;
 public class Car {
     private static final int STOPPED = 0; //car speed is 0m/s, change to STOPPED_SPEED
     private static int DEFAULT_ASSIGNED_SPEED ; //store the assigned speed from user when we change the speed to 0
@@ -54,18 +55,22 @@ public class Car {
             this.carRoadPosition = (this.carRoadPosition + this.speed); //Now we only consider the position on the same road only
             if (this.currentRoad.getLength() <= this.getRoadPosition() && !this.currentRoad.getConnectedRoadsEnd().isEmpty()) {
                 float newPosition = this.carRoadPosition - this.currentRoad.getLength(); // position in the new road equals to the distance that the car has crossed
+
                 Road newRoad = this.currentRoad.getConnectedRoadsEnd().get(NEXT_ROAD_INDEX);
-                if(newRoad.getStartLocation().equals(this.currentRoad.getEndLocation())){
+                if(Arrays.equals(newRoad.getStartLocation(),this.currentRoad.getEndLocation())){
                     this.speed = Math.abs(this.speed);
+
                 }
                 else{
                     this.speed = -1*Math.abs(this.speed);
+
                 }
                 this.currentRoad.getCarsOnRoad().remove(this);
                 this.currentRoad =newRoad;
                 this.currentRoad.getCarsOnRoad().add(this);
                 if(this.speed>0){
                     this.carRoadPosition = newPosition;
+
                 }else{
                     this.carRoadPosition = this.currentRoad.getLength()-newPosition;
                 } RoadPositionToPosition();
@@ -174,6 +179,10 @@ public class Car {
         this.position = position;
     }
 
+    public void setRoadPosition(float position) {
+        this.carRoadPosition = position;
+        RoadPositionToPosition();
+    }
 
     public float getRoadPosition() {
         return carRoadPosition;
