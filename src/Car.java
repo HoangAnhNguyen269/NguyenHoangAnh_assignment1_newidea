@@ -75,6 +75,7 @@ public class Car {
                 this.carRoadPosition = this.currentRoad.getLength();
                 RoadPositionToPosition();
             } else { RoadPositionToPosition();}
+
             for (Car car:this.currentRoad.getPositiveCar()){
                 for (Car negCar: this.currentRoad.getNegativeCar()){
                     if(this.carRoadPosition <= car.getRoadPosition() && this.carRoadPosition > (car.getRoadPosition()-car.getLength()) && negCar.getRoadPosition() <= car.getRoadPosition() && negCar.getRoadPosition() > (car.getRoadPosition()-car.getLength()))
@@ -172,6 +173,7 @@ public class Car {
     public void setPosition(float[] position) {
         this.position = position;
     }
+
 
     public float getRoadPosition() {
         return carRoadPosition;

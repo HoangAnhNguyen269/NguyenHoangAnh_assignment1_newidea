@@ -7,10 +7,10 @@ public class Road {
     private int length;
     private int[] startLocation = new int[2]; //(x,y)
     private int[] endLocation = new int[2];
-    private ArrayList<Car> carsOnRoad = new ArrayList<>();
-    private ArrayList<TrafficLight> lightsOnRoad = new ArrayList<>();
-    private ArrayList<Road> connectedRoadsEnd = new ArrayList<>(); //the arraylist for other Roads connected at the end of this road
-    private ArrayList<Road> connectedRoadsStart = new ArrayList<>();//the arraylist for other Roads connected at the start of this road
+    private ArrayList<Car> carsOnRoad = new ArrayList<Car>();
+    private ArrayList<TrafficLight> lightsOnRoad = new ArrayList<TrafficLight>();
+    private ArrayList<Road> connectedRoadsEnd = new ArrayList<Road>(); //the arraylist for other Roads connected at the end of this road
+    private ArrayList<Road> connectedRoadsStart = new ArrayList<Road>();//the arraylist for other Roads connected at the start of this road
     //road vector is how the road look like. Assume from a horizontal road connects to 3 roads. A car on the road go from left to right on the road.
     // If we turn right, the roadVector ="right", turn left ->roadVector ="left" and straight forward roadVector ="straight"
     private static String roadVector;
@@ -108,13 +108,23 @@ public class Road {
         this.connectedRoadsEnd = connectedRoadsEnd;
     }
 
+    public void setAConnectedRoadEnd(Road connectedRoadEnd) {
+        this.connectedRoadsEnd.add(connectedRoadEnd);
+    }
+
     public ArrayList<Road> getConnectedRoadsStart() {
         return connectedRoadsStart;
     }
 
+
     public void setConnectedRoadsStart(ArrayList<Road> connectedRoadsStart) {
         this.connectedRoadsStart = connectedRoadsStart;
     }
+
+    public void setAConnectedRoadStart(Road connectedRoadsStart) {
+        this.connectedRoadsEnd.add(connectedRoadsStart);
+    }
+
     public ArrayList<Car> getPositiveCar(){
         ArrayList<Car> positiveCar = new ArrayList<Car>();
         for(Car car:this.carsOnRoad){
