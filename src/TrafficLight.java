@@ -32,7 +32,8 @@ public class TrafficLight {
     }
 
     public String getState() {
-        return state;
+
+        return this.state;
     }
 
     public void setState(String state) {

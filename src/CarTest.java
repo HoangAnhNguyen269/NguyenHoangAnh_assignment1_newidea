@@ -36,7 +36,7 @@ public class CarTest {
     void testNegativeSpeed(){
         road.setAConnectedRoadEnd(connectedRoad);
         car.setCurrentRoad(connectedRoad);
-        car.setRoadPosition(car.getCurrentRoad().getLength()-1);
+        car.setCarRoadPosition(car.getCurrentRoad().getLength()-1);
         car.setSpeed(-4);
         car.move();
         assertEquals(1,car.getRoadPosition());
@@ -45,7 +45,7 @@ public class CarTest {
     @Test
     void testNegativeSpeed2(){
         road.setAConnectedRoadStart(connectedRoad2);
-        car.setRoadPosition(car.getCurrentRoad().getLength()-1);
+        car.setCarRoadPosition(car.getCurrentRoad().getLength()-1);
         car.setSpeed(-4);
         car.move();
         assertEquals(2,car.getRoadPosition());

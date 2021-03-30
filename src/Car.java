@@ -2,7 +2,6 @@ import java.lang.*;
 import java.util.*;
 public class Car {
     private static final int STOPPED = 0; //car speed is 0m/s, change to STOPPED_SPEED
-    private static int DEFAULT_ASSIGNED_SPEED ; //store the assigned speed from user when we change the speed to 0
     private static final int NEXT_ROAD_INDEX = 0; //In the first protocol we only use 2 road connect to other
     String id; // unique identifier, change to carId
     static float length; // number of segments occupied, 1 for ease of prototype, change to carLength
@@ -24,7 +23,6 @@ public class Car {
         this.length = 1f; // cars made 1m long for prototype.
         this.breadth = length * 0.5f;
         this.speed = 1; //default speed is 1
-        this.DEFAULT_ASSIGNED_SPEED = this.speed;
         if(this.currentRoad.sameY ==true) //when all cars on the road have the same y value
         {
             this.position[1] = this.currentRoad.getStartLocation()[1];
@@ -38,58 +36,50 @@ public class Car {
     }
 
     public void move() {
+        this.setSpeed();
         boolean stopSign = false; //the boolean value tell the car when the car stop
         for(int i = 0; i<this.currentRoad.getLightsOnRoad().size(); i++){
-            if (!this.currentRoad.getLightsOnRoad().isEmpty() && this.carRoadPosition >= this.currentRoad.getLightsOnRoad().get(i).getPosition() && this.currentRoad.getLightsOnRoad().get(i).getState().equals("red")) {
+            if (!this.currentRoad.getLightsOnRoad().isEmpty() && (this.carRoadPosition+this.speed) >= this.currentRoad.getLightsOnRoad().get(i).getPosition() && this.currentRoad.getLightsOnRoad().get(i).getState().equals("red")) {
                 stopSign = true; //red light
             }else{
                 stopSign =false; //green light or there is no traffic light.
-                this.speed = this.DEFAULT_ASSIGNED_SPEED;
             }}
-        if(Math.abs(this.speed) > this.currentRoad.getSpeedLimit()) {
-            this.speed =  this.speed/Math.abs(this.speed) * this.currentRoad.getSpeedLimit(); //set speed limit to that of currentRoad
-        }
         if(stopSign == true) {
-            if(this.speed>0){this.carRoadPosition =this.currentRoad.getLength();}
-            else if(this.speed <0){this.carRoadPosition =0;}
+            if(this.speed>0){this.setCarRoadPosition(this.currentRoad.getLength());}
+            else if(this.speed <0){this.setCarRoadPosition(0);}
             else{}
-            this.speed = STOPPED; //red light stop
+
 
         }else if(this.speed >0){
-            this.carRoadPosition = (this.carRoadPosition + this.speed); //Now we only consider the position on the same road only
+            this.carRoadPosition = this.carRoadPosition + this.speed; //Now we only consider the position on the same road only
             if (this.currentRoad.getLength() <= this.getRoadPosition() && !this.currentRoad.getConnectedRoadsEnd().isEmpty()) {
                 float newPosition = this.carRoadPosition - this.currentRoad.getLength(); // position in the new road equals to the distance that the car has crossed
-
                 Road newRoad = this.currentRoad.getConnectedRoadsEnd().get(NEXT_ROAD_INDEX);
                 if(Arrays.equals(newRoad.getStartLocation(),this.currentRoad.getEndLocation())){
-                    this.speed = Math.abs(this.speed);
-
+                    this.speed = Math.abs(this.speed); //What if the speed >speed limit -> new method
                 }
                 else{
                     this.speed = -1*Math.abs(this.speed);
-
                 }
-                this.currentRoad.getCarsOnRoad().remove(this);
-                this.currentRoad =newRoad;
-                this.currentRoad.getCarsOnRoad().add(this);
+                this.setCurrentRoad(newRoad);
+                if(newPosition > this.getCurrentRoad().getSpeedLimit()){
+                    newPosition = this.getCurrentRoad().getSpeedLimit();
+                }
                 if(this.speed>0){
-                    this.carRoadPosition = newPosition;
+                    this.setCarRoadPosition(newPosition);
                 }else{
-                    this.carRoadPosition = this.currentRoad.getLength()-newPosition;
-                } RoadPositionToPosition();
+                    this.setCarRoadPosition(this.currentRoad.getLength()-newPosition);
+                }
 
             } else if (this.currentRoad.getLength() <= this.getRoadPosition() && this.currentRoad.getConnectedRoadsEnd().isEmpty()) {
-                this.speed = STOPPED;
-                this.carRoadPosition = this.currentRoad.getLength();
-                RoadPositionToPosition();
-            } else { RoadPositionToPosition();}
-
-            for (Car car:this.currentRoad.getPositiveCar()){
+                this.setSpeed(STOPPED);
+                this.setCarRoadPosition(this.currentRoad.getLength());
+            } else { RoadPositionToPosition(); }
+            for (Car car:this.currentRoad.getPositiveCar()){ //When 2 car pass to other
                 for (Car negCar: this.currentRoad.getNegativeCar()){
-                    if(this.carRoadPosition <= car.getRoadPosition() && this.carRoadPosition > (car.getRoadPosition()-car.getLength()) && negCar.getRoadPosition() <= car.getRoadPosition() && negCar.getRoadPosition() > (car.getRoadPosition()-car.getLength()))
+                    if(negCar.getRoadPosition() <= car.getRoadPosition() && negCar.getRoadPosition() > (car.getRoadPosition()-car.getLength()))
                     {
-                        this.carRoadPosition = car.carRoadPosition-car.getLength();// the faster car cannot overtake because theres another car on the opposite side
-                        RoadPositionToPosition();
+                        this.setCarRoadPosition(car.carRoadPosition-car.getLength());// the faster car cannot overtake because theres another car on the opposite side
                     }
                 }
             }
@@ -98,33 +88,32 @@ public class Car {
             this.carRoadPosition = this.carRoadPosition + this.speed;
             if (this.getRoadPosition() <=0 && !this.currentRoad.getConnectedRoadsStart().isEmpty()){
                 float newPosition = this.carRoadPosition;
-                Road newRoad = this.currentRoad.getConnectedRoadsStart().get(NEXT_ROAD_INDEX);
+                Road newRoad = this.currentRoad.getConnectedRoadsStart().get(NEXT_ROAD_INDEX); //We only connect to 1 road in the first prototype
                 if(Arrays.equals(newRoad.getStartLocation(),this.currentRoad.getStartLocation())){
                     this.speed = Math.abs(this.speed);
                 }
                 else{
                     this.speed = -1*Math.abs(this.speed);
                 }
-                this.currentRoad.getCarsOnRoad().remove(this);
-                this.currentRoad =newRoad;
-                this.currentRoad.getCarsOnRoad().add(this);
-
+                this.setCurrentRoad(newRoad);
+                if(newPosition > this.getCurrentRoad().getSpeedLimit()){
+                    newPosition = this.getCurrentRoad().getSpeedLimit();
+                }
                 if(this.speed>0){
-                    this.carRoadPosition = -newPosition;
+                    this.setCarRoadPosition(-newPosition);
                 }else{
-                    this.carRoadPosition = this.currentRoad.getLength()+newPosition;
-                } RoadPositionToPosition();
+                    this.setCarRoadPosition(this.currentRoad.getLength()+newPosition);
+                }
             }else if (this.getRoadPosition() <=0 && this.currentRoad.getConnectedRoadsStart().isEmpty()) {
                 this.speed = STOPPED;
-                this.carRoadPosition =0;
-                RoadPositionToPosition();
+                this.setCarRoadPosition(0);
                 }
             else{RoadPositionToPosition();}
             for (Car car:this.currentRoad.getNegativeCar()){
                 for (Car posCar: this.currentRoad.getPositiveCar()){
-                    if(this.carRoadPosition >= car.getRoadPosition() && this.carRoadPosition < (car.getRoadPosition()+car.getLength()) && posCar.getRoadPosition() >= car.getRoadPosition() && posCar.getRoadPosition() < (car.getRoadPosition()-car.getLength()))
+                    if(posCar.getRoadPosition() >= car.getRoadPosition() && posCar.getRoadPosition() < (car.getRoadPosition()-car.getLength()))
                     {
-                        this.carRoadPosition = car.getRoadPosition()+car.getLength(); // the faster car cannot overtake because theres another car on the opposite side
+                        this.setCarRoadPosition(car.getRoadPosition()+car.getLength()); // the faster car cannot overtake because theres another car on the opposite side
                     }
                 }
             }
@@ -172,6 +161,14 @@ public class Car {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+        if(Math.abs(this.speed) > this.currentRoad.getSpeedLimit()) {
+            this.speed =  this.speed/Math.abs(this.speed) * this.currentRoad.getSpeedLimit(); //set speed limit to that of currentRoad
+        }
+    }
+    public void setSpeed() {
+        if(Math.abs(this.speed) > this.currentRoad.getSpeedLimit()) {
+            this.speed =  this.speed/Math.abs(this.speed) * this.currentRoad.getSpeedLimit(); //set speed limit to that of currentRoad
+        }
     }
 
     public float[] getPosition() {
@@ -182,7 +179,7 @@ public class Car {
         this.position = position;
     }
 
-    public void setRoadPosition(float position) {
+    public void setCarRoadPosition(float position) {
         this.carRoadPosition = position;
         RoadPositionToPosition();
     }
@@ -195,8 +192,10 @@ public class Car {
     }
 
     public void setCurrentRoad(Road currentRoad) {
+        this.currentRoad.getCarsOnRoad().remove(this);
         this.currentRoad = currentRoad;
         this.currentRoad.getCarsOnRoad().add(this);
+        this.setSpeed();
     }
 
     public String getId() {
