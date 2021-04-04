@@ -1,3 +1,9 @@
+/***********************
+ * CarTest.java
+ * Nguyen Hoang Anh
+ *
+ * This checks whether Car class work or not
+ **********************/
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

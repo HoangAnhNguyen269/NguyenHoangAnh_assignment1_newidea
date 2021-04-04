@@ -1,3 +1,10 @@
+/***********************
+ * Car.java
+ * Nguyen Hoang Anh
+ *
+ * This describes the Car class
+ **********************/
+
 import java.lang.*;
 import java.util.*;
 public class Car {

@@ -1,3 +1,9 @@
+/***********************
+ * Bus.java
+ * Nguyen Hoang Anh
+ *
+ * This describes the Bus class extended from Car class
+ **********************/
 public class Bus extends Car {
 
     public Bus(String id, Road currentRoad) {

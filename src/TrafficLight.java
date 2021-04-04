@@ -1,3 +1,9 @@
+/***********************
+ * TrafficLight.java
+ * Nguyen Hoang Anh
+ *
+ * This describes the Traffic Light class
+ **********************/
 import java.util.Random;
 
 public class TrafficLight {

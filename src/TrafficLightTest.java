@@ -1,3 +1,9 @@
+/***********************
+ * TrafficLightTest.java
+ * Nguyen Hoang Anh
+ *
+ * This checks the Traffic Light class work or not
+ **********************/
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

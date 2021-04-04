@@ -1,3 +1,9 @@
+/***********************
+ * MotorbikeTest.java
+ * Nguyen Hoang Anh
+ *
+ * This checks whether Motorbike class work or not
+ **********************/
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,3 +1,9 @@
+/***********************
+ * Road.java
+ * Nguyen Hoang Anh
+ *
+ * This describes the Road class
+ **********************/
 import java.util.*;
 public class Road {
     // sameY
@@ -54,7 +60,7 @@ public class Road {
     }
 
     public String printStartLocation() {
-        return startLocation[0] + "," + startLocation[1];
+        return "("+Integer.toString(startLocation[0]) + "," + Integer.toString(startLocation[1])+")";
     }
 
     public void setStartLocation(int[] startLocation) {
@@ -63,7 +69,7 @@ public class Road {
     }
 
     public String printEndLocation() {
-        return endLocation[0] + "," + endLocation[1];
+        return "("+Integer.toString(endLocation[0]) + "," + Integer.toString(endLocation[1])+")";
     }
 
     public void printRoadInfo() {

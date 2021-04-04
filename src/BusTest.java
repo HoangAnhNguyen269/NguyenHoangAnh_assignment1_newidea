@@ -1,3 +1,9 @@
+/***********************
+ * BusTest.java
+ * Nguyen Hoang Anh
+ *
+ * This test whether Bus class work or not
+ **********************/
 import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.util.*;
