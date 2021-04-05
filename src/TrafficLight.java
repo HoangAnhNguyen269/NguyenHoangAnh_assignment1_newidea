@@ -15,12 +15,18 @@ public class TrafficLight {
     private int position;
     private Road roadAttachedTo;
 
-    public TrafficLight(String id, Road road) {
+    public TrafficLight(String id, Road road, boolean stayAtTheEnd) {
         this.id = "light_" + id;
         state = RED;
         this.roadAttachedTo = road;
-        position = this.roadAttachedTo.getLength(); // always places the traffic light at the end of the roadAttachedTo.
-        this.roadAttachedTo.getLightsOnRoad().add(this); // adds this light to the road it belongs to.
+        if(stayAtTheEnd == true){
+            position = this.roadAttachedTo.getLength(); // always places the traffic light at the end of the roadAttachedTo.
+            this.roadAttachedTo.setEndLight(this);
+        }
+        else{
+            position = 0;
+            this.roadAttachedTo.setStartLight(this);
+        }
     }
 
     public void operate(int seed) {

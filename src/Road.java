@@ -13,7 +13,8 @@ public class Road {
     private int[] startLocation = new int[2]; //(x,y)
     private int[] endLocation = new int[2];
     private ArrayList<Car> carsOnRoad = new ArrayList<Car>();
-    private ArrayList<TrafficLight> lightsOnRoad = new ArrayList<TrafficLight>();
+    private TrafficLight startLight;
+    private TrafficLight endLight ;
     private ArrayList<Road> connectedRoadsEnd = new ArrayList<Road>(); //the arraylist for other Roads connected at the end of this road
     private ArrayList<Road> connectedRoadsStart = new ArrayList<Road>();//the arraylist for other Roads connected at the start of this road
     //road vector is how the road look like. Assume from a horizontal road connects to 3 roads. A car on the road go from left to right on the road.
@@ -36,6 +37,34 @@ public class Road {
             this.length = Math.abs(this.startLocation[1]-this.endLocation[1]);
         }
 
+    }
+    public void carsOnRoadMoveCheck(){ //check when all car move on the road
+
+        for(Car aCar:this.getPositiveCar()){
+            ArrayList<Car> newPositiveCars = aCar.getCurrentRoad().getPositiveCar();
+            newPositiveCars.remove(aCar);
+            for (Car car:newPositiveCars){ //When 2 car pass to other
+                for (Car negCar: aCar.getCurrentRoad().getNegativeCar()){
+                    if(aCar.getRoadPosition() <= car.getRoadPosition() && aCar.getRoadPosition() > (car.getRoadPosition()-car.getLength()) && negCar.getRoadPosition() <= car.getRoadPosition() && negCar.getRoadPosition() > (car.getRoadPosition()-car.getLength()))
+                    {
+
+                        aCar.setCarRoadPosition(car.getRoadPosition()-car.getLength());// the faster car cannot overtake because theres another car on the opposite side
+                    }
+                }
+            }
+        }
+        for(Car aCar:this.getNegativeCar()){
+            ArrayList<Car> newNegativeCars = aCar.getCurrentRoad().getNegativeCar();
+            newNegativeCars.remove(aCar);
+            for (Car car:newNegativeCars){
+                for (Car posCar: aCar.getCurrentRoad().getPositiveCar()){
+                    if(aCar.getRoadPosition() >= car.getRoadPosition() && aCar.getRoadPosition() <(car.getRoadPosition()-car.getLength())&&posCar.getRoadPosition() >= car.getRoadPosition() && posCar.getRoadPosition() < (car.getRoadPosition()-car.getLength()))
+                    {
+                        aCar.setCarRoadPosition(car.getRoadPosition()+car.getLength()); // the faster car cannot overtake because theres another car on the opposite side
+                    }
+                }
+            }
+        }
     }
 
 
@@ -96,13 +125,13 @@ public class Road {
         this.carsOnRoad = carsOnRoad;
     }
 
-    public ArrayList<TrafficLight> getLightsOnRoad() {
-        return lightsOnRoad;
-    }
+    public void setStartLight(TrafficLight light){this.startLight =light;}
 
-    public void setLightsOnRoad(ArrayList<TrafficLight> lightsOnRoad) {
-        this.lightsOnRoad = lightsOnRoad;
-    }
+    public void setEndLight(TrafficLight light){this.endLight =light;}
+
+    public TrafficLight getStartLight(){ return this.startLight;}
+
+    public TrafficLight getEndLight(){ return this.endLight;}
 
     //GET and SET method for connected road arraylist; later I gonna use Map
     public ArrayList<Road> getConnectedRoadsEnd() {
@@ -117,6 +146,7 @@ public class Road {
         this.connectedRoadsEnd.add(connectedRoadEnd);
         if(Arrays.equals(this.getEndLocation(),connectedRoadEnd.getStartLocation())){
             connectedRoadEnd.getConnectedRoadsStart().add(this);
+
         }else{
             connectedRoadEnd.getConnectedRoadsEnd().add(this);
         }

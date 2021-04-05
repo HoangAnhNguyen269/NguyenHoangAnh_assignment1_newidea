@@ -59,6 +59,12 @@ public class CarTest {
         assertEquals(4, car.getSpeed());
     }
     @Test
+    void testlahal(){
+        Car car_1 = new Car("1", road);
+        Car car_2 = new Car("2", road);
+
+    }
+    @Test
     void getLength() {
         assertEquals(1, car.getLength());
 

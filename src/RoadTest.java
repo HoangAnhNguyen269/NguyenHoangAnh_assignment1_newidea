@@ -15,7 +15,7 @@ class RoadTest {
     Road road = new Road("0", 6, new int[]{0, 0}, new int[]{0,3});
     Road connectedRoad = new Road("1",6,new int[]{0, 3}, new int[]{0,6});
     Car car = new Car("0", road);
-    TrafficLight light = new TrafficLight("0", road);
+    TrafficLight light = new TrafficLight("0", road, true);
     @Test
     void getId() {
         assertEquals("road_0", road.getId());
@@ -52,9 +52,8 @@ class RoadTest {
 
     @Test
     void getLights() {
-        ArrayList<TrafficLight> expected = new ArrayList<>();
-        expected.add(light);
-        assertEquals(expected, road.getLightsOnRoad());
+        TrafficLight expected = light;
+        assertEquals(expected, road.getEndLight());
     }
 
     @Test

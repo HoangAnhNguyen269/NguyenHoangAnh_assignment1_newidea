@@ -61,7 +61,7 @@ public class Main {
         System.out.println("\nTraffic Lights;");
         ArrayList<TrafficLight> lights = new ArrayList<>();
         for (int i = 0; i < lightSpawns; i++) {
-            lights.add(new TrafficLight(Integer.toString(i), roads.get(0))); // the traffic light will stand at the end of road_0
+            lights.add(new TrafficLight(Integer.toString(i), roads.get(0), true)); // the traffic light will stand at the end of road_0
             lights.get(i).printLightStatus();
         }
         System.out.println();
@@ -89,7 +89,7 @@ public class Main {
             for (Car car : cars) {
                 car.move();
                 car.printCarStatus();
-                if (car.getSpeed()==0) {
+                if (car.getSpeed()==0 && car.getAssignedSpeed() ==0 ) {
                     carsFinished = carsFinished + 1;
                 }
             }
@@ -102,8 +102,42 @@ public class Main {
             }
         }
 
+        System.out.println("-------------------------------------");
+        System.out.println("Now we gonna simulate  a car go from the end of road_1 to the start of road_0");
+        cars.get(0).setCurrentRoad(road_1);
+        cars.get(0).setCarRoadPosition(road_1.getLength());
+        System.out.print("Enter the speed for the car by a positive integer: ");
+        int negativeSpeed = simController.nextInt();
+        cars.get(0).setSpeed(-negativeSpeed);
+        cars.get(0).printCarStatus();
+        //Simulation loop:
+        System.out.println("Simulation:");
+        carsFinished = 0;
+        time=0;
+        while (carsFinished < cars.size()) {
+            for (TrafficLight light : lights) {
+                light.operate(random.nextInt());
+                light.printLightStatus();
+            }
+            for (Car car : cars) {
+                car.move();
+                car.printCarStatus();
+                if (cars.get(0).getSpeed() == 0) {
+                    carsFinished = carsFinished + 1;
+                }
+            }
+            time = time + 1;
+            System.out.println(time + " Seconds have passed.\n");
+            try {
+                Thread.sleep(speedOfSim); // set speed of simulation.
+            } catch (InterruptedException sim) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+
         System.out.println("-------------------------------");
-        System.out.println("Now we gonna test how a car pass over another car on these 2 roads");
+        System.out.println("Now we gonna stimulate how a car pass over another car on these 2 roads");
         System.out.println("Setting");
         System.out.println("First we change speed limit for 2 road to 2m/s");
         System.out.println("---------------------");
@@ -116,6 +150,7 @@ public class Main {
 
         System.out.println("Second we put the first car on road_0, set it position on the start of the road, and set the speed to 2");
         System.out.println();
+        cars.get(0).setCurrentRoad(road_0);
         cars.get(0).setSpeed(2);
         cars.get(0).setCarRoadPosition(1);
         cars.get(0).printCarStatus();
@@ -149,5 +184,57 @@ public class Main {
                 Thread.currentThread().interrupt();
             }
         }
+        System.out.println("-------------------------------");
+        System.out.println("Now we gonna stimulate how a car pass over another car on these 2 roads if there is another car in opposite direction");
+        System.out.println("Setting");
+        System.out.println("The first car: ");
+        cars.get(0).setCurrentRoad(road_0);
+        cars.get(0).setCarRoadPosition(1);
+        cars.get(0).setSpeed(2);
+        cars.get(0).printCarStatus();
+        System.out.println("The second car: ");
+        cars.get(1).setCurrentRoad(road_0);
+        cars.get(1).setCarRoadPosition(2);
+        cars.get(1).setSpeed(1);
+        cars.get(1).printCarStatus();
+        System.out.println("The third car: ");
+        cars.add(new Car(Integer.toString(2), roads.get(0)));
+        cars.get(2).setCarRoadPosition(4);
+        cars.get(2).setSpeed(-1); //opposite direction
+        cars.get(2).printCarStatus();
+        System.out.println("On the first second the car_0 have to be at position 2.0, not 3.0");
+        System.out.println("---------------------");
+        System.out.println("Simulate: ");
+        carsFinished = 0;
+        time=0;
+        while (carsFinished < cars.size()) {
+            for (TrafficLight light : lights) {
+                light.operate(random.nextInt());
+                light.printLightStatus();
+            }
+            for(Car car: cars){
+                car.move();
+            }
+            for(Road road:roads){
+                road.carsOnRoadMoveCheck();
+            }
+            for(Car car:cars){
+                car.printCarStatus();
+            }
+            if (cars.get(0).getAssignedSpeed() == 0 && cars.get(1).getAssignedSpeed() == 0 && cars.get(2).getAssignedSpeed() == 0) {
+                carsFinished = carsFinished + 1;
+            }
+            time = time + 1;
+            System.out.println(time + " Seconds have passed.\n");
+            try {
+                Thread.sleep(speedOfSim); // set speed of simulation.
+            } catch (InterruptedException sim) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+
+
     }
 }
+
