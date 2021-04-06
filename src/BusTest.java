@@ -10,7 +10,8 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BusTest {
-    Road road = new Road("0", 1, new int[]{0, 0}, new int[]{0,3});
+    Map map = new Map("0");
+    Road road = new Road("0", map,1, new int[]{0, 0}, new int[]{0,3});
     Bus bus = new Bus("0",road);
 
     @Test

@@ -4,6 +4,7 @@
  *
  * This checks whether Road class work or not
  **********************/
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,10 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RoadTest {
-    Road road = new Road("0", 6, new int[]{0, 0}, new int[]{0,3});
-    Road connectedRoad = new Road("1",6,new int[]{0, 3}, new int[]{0,6});
+    Map map = new Map("0");
+    Road road = new Road("0", map, 6, new int[]{0, 0}, new int[]{0, 3});
+    Road connectedRoad = new Road("1", map, 6, new int[]{0, 3}, new int[]{0, 6});
     Car car = new Car("0", road);
     TrafficLight light = new TrafficLight("0", road, true);
+
     @Test
     void getId() {
         assertEquals("road_0", road.getId());
@@ -61,6 +64,7 @@ class RoadTest {
         ArrayList<Road> expected = new ArrayList<>();
         assertEquals(expected, road.getConnectedRoadsEnd());
     }
+
     @Test
     void getConnectedRoadsStart() {
         ArrayList<Road> expected = new ArrayList<>();

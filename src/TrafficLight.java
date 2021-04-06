@@ -4,6 +4,7 @@
  *
  * This describes the Traffic Light class
  **********************/
+
 import java.util.Random;
 
 public class TrafficLight {
@@ -19,11 +20,10 @@ public class TrafficLight {
         this.id = "light_" + id;
         state = RED;
         this.roadAttachedTo = road;
-        if(stayAtTheEnd == true){
+        if (stayAtTheEnd == true) {
             position = this.roadAttachedTo.getLength(); // always places the traffic light at the end of the roadAttachedTo.
             this.roadAttachedTo.setEndLight(this);
-        }
-        else{
+        } else {
             position = 0;
             this.roadAttachedTo.setStartLight(this);
         }
