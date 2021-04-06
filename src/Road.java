@@ -20,8 +20,7 @@ public class Road {
     private TrafficLight endLight;
     private ArrayList<Road> connectedRoadsEnd = new ArrayList<Road>(); //the arraylist for other Roads connected at the end of this road
     private ArrayList<Road> connectedRoadsStart = new ArrayList<Road>();//the arraylist for other Roads connected at the start of this road
-    //road vector is how the road look like. Assume from a horizontal road connects to 3 roads. A car on the road go from left to right on the road.
-    //private static CityMap Map;
+
     public boolean sameY; // whether startLocation and endLocation has the same y axis
 
     public Road(String id, Map map, int speedLimit, int[] startLocation, int[] endLocation) {
