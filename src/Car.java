@@ -27,7 +27,8 @@ public class Car {
         //this.id = "car_" + id;
         this.setId("car_" + id);
         this.currentRoad = currentRoad;
-        this.currentRoad.getCarsOnRoad().add(this); //add this car to the road its on.
+        //this.currentRoad.getCarsOnRoad().add(this); //add this car to the road its on.
+        this.currentRoad.addACar(this);//add this car to the road its on.
         this.length = 1f; // cars made 1m long for prototype.
         this.breadth = length * 0.5f;
         //this.speed = 1; //default speed is 1
@@ -180,7 +181,7 @@ public class Car {
     }
 
     public int getSpeed() {
-        return speed;
+        return this.speed;
     }
 
     public void setSpeed(int speed) {

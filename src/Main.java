@@ -47,7 +47,9 @@ public class Main {
         ArrayList<Road> roads = new ArrayList<>();
         roads.add(road_0);
         roads.add(road_1);
-        for (Road road : roads) {
+        Map map = new Map("0");
+        map.setRoadsOnMap(roads);
+        for (Road road : map.getRoadsOnMap()) {
             road.printRoadInfo();
         }
 
@@ -55,9 +57,9 @@ public class Main {
         ArrayList<Car> cars = new ArrayList<>();
         for (int i = 0; i < carSpawns; i++) {
             cars.add(new Car(Integer.toString(i), roads.get(0))); // all created cars will begin on road_0.
-            cars.get(i).printCarStatus();
+            //cars.get(i).printCarStatus();
         }
-
+        map.setCarsOnMap();
         System.out.println("\nTraffic Lights;");
         ArrayList<TrafficLight> lights = new ArrayList<>();
         for (int i = 0; i < lightSpawns; i++) {
@@ -69,7 +71,7 @@ public class Main {
 
         // set locations and connections:
         System.out.println("Settings: \n---------------------");
-        road_0.setAConnectedRoadEnd(road_1);// place road_1 to a position at the end of road_0.
+        //road_0.setAConnectedRoadEnd(road_1);// place road_1 to a position at the end of road_0.
         System.out.println();
 
 
@@ -86,13 +88,15 @@ public class Main {
                 light.operate(random.nextInt());
                 light.printLightStatus();
             }
+            map.moveCarsOnMap();
             for (Car car : cars) {
-                car.move();
+                //car.move();
                 car.printCarStatus();
-                if (car.getSpeed()==0 && car.getAssignedSpeed() ==0 ) {
+                if (car.getAssignedSpeed() ==0) {
                     carsFinished = carsFinished + 1;
                 }
             }
+
             time = time + 1;
             System.out.println(time + " Seconds have passed.\n");
             try {
@@ -119,10 +123,11 @@ public class Main {
                 light.operate(random.nextInt());
                 light.printLightStatus();
             }
+            map.moveCarsOnMap();
             for (Car car : cars) {
-                car.move();
+                //car.move();
                 car.printCarStatus();
-                if (cars.get(0).getSpeed() == 0) {
+                if (cars.get(0).getAssignedSpeed() == 0) {
                     carsFinished = carsFinished + 1;
                 }
             }
@@ -161,20 +166,22 @@ public class Main {
         cars.add(new Car(Integer.toString(1), roads.get(0)));
         cars.get(1).setCarRoadPosition(2);
         cars.get(1).printCarStatus();
+        map.setCarsOnMap();
         System.out.println("---------------------");
         carsFinished = 0;
         time=0;
-        while (carsFinished < cars.size()) {
+        while (carsFinished < 1) {
             for (TrafficLight light : lights) {
                 light.operate(random.nextInt());
                 light.printLightStatus();
             }
+            map.moveCarsOnMap();
             for (Car car : cars) {
-                car.move();
+                //car.move();
                 car.printCarStatus();
-                if (cars.get(0).getSpeed() == 0 && cars.get(1).getSpeed() == 0) {
-                    carsFinished = carsFinished + 1;
-                }
+            }
+            if (cars.get(0).getAssignedSpeed() == 0&&cars.get(1).getAssignedSpeed() == 0) {
+                carsFinished = carsFinished + 1;
             }
             time = time + 1;
             System.out.println(time + " Seconds have passed.\n");
@@ -202,26 +209,23 @@ public class Main {
         cars.get(2).setCarRoadPosition(4);
         cars.get(2).setSpeed(-1); //opposite direction
         cars.get(2).printCarStatus();
+        map.setCarsOnMap();
         System.out.println("On the first second the car_0 have to be at position 2.0, not 3.0");
         System.out.println("---------------------");
         System.out.println("Simulate: ");
         carsFinished = 0;
         time=0;
-        while (carsFinished < cars.size()) {
+        while (carsFinished < 1) {
             for (TrafficLight light : lights) {
                 light.operate(random.nextInt());
                 light.printLightStatus();
             }
+            map.moveCarsOnMap();
             for(Car car: cars){
-                car.move();
-            }
-            for(Road road:roads){
-                road.carsOnRoadMoveCheck();
-            }
-            for(Car car:cars){
+                //car.move();
                 car.printCarStatus();
             }
-            if (cars.get(0).getAssignedSpeed() == 0 && cars.get(1).getAssignedSpeed() == 0 && cars.get(2).getAssignedSpeed() == 0) {
+            if (cars.get(0).getAssignedSpeed() == 0&&cars.get(1).getAssignedSpeed() == 0&&cars.get(2).getAssignedSpeed() == 0) {
                 carsFinished = carsFinished + 1;
             }
             time = time + 1;
@@ -237,4 +241,5 @@ public class Main {
 
     }
 }
+
 

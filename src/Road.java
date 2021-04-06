@@ -7,6 +7,7 @@
 import java.util.*;
 public class Road {
     // sameY
+
     private String id; //id for the road
     private int speedLimit;
     private int length;
@@ -18,8 +19,6 @@ public class Road {
     private ArrayList<Road> connectedRoadsEnd = new ArrayList<Road>(); //the arraylist for other Roads connected at the end of this road
     private ArrayList<Road> connectedRoadsStart = new ArrayList<Road>();//the arraylist for other Roads connected at the start of this road
     //road vector is how the road look like. Assume from a horizontal road connects to 3 roads. A car on the road go from left to right on the road.
-    // If we turn right, the roadVector ="right", turn left ->roadVector ="left" and straight forward roadVector ="straight"
-    private static String roadVector;
     //private static CityMap Map;
     public boolean sameY; // whether startLocation and endLocation has the same y axis
 
@@ -67,6 +66,9 @@ public class Road {
         }
     }
 
+    public void addACar(Car car){
+        this.carsOnRoad.add(car);
+    }
 
     public String getId() {
         return id;
@@ -190,4 +192,3 @@ public class Road {
     }
 
 }
-
