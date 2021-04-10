@@ -39,7 +39,7 @@ public class Road {
 
     }
 
-    public void carsOnRoadMoveCheck() { //check some situation that a car cannot pass another car in the same direction
+    public void carsOnRoadMoveCheck() { //check some situation that a car cannot pass another car in the same direction when there is a car on the opposite direction on the same position
 
         for (Car aCar : this.getPositiveCar()) {
             ArrayList<Car> newPositiveCars = aCar.getCurrentRoad().getPositiveCar();
