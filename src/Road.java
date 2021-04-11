@@ -15,11 +15,11 @@ public class Road {
     private int length;
     private int[] startLocation = new int[2]; //(x,y)
     private int[] endLocation = new int[2];
-    private ArrayList<Car> carsOnRoad = new ArrayList<Car>();
+    private ArrayList<Car> carsOnRoad = new ArrayList<>();
     private TrafficLight startLight;
     private TrafficLight endLight;
-    private ArrayList<Road> connectedRoadsEnd = new ArrayList<Road>(); //the arraylist for other Roads connected at the end of this road
-    private ArrayList<Road> connectedRoadsStart = new ArrayList<Road>();//the arraylist for other Roads connected at the start of this road
+    private ArrayList<Road> connectedRoadsEnd = new ArrayList<>(); //the arraylist for other Roads connected at the end of this road
+    private ArrayList<Road> connectedRoadsStart = new ArrayList<>();//the arraylist for other Roads connected at the start of this road
 
     public boolean sameY; // whether startLocation and endLocation has the same y axis
 
@@ -192,7 +192,7 @@ public class Road {
     }
 
     public ArrayList<Car> getPositiveCar() { //cars that move from start to the end of the road
-        ArrayList<Car> positiveCar = new ArrayList<Car>();
+        ArrayList<Car> positiveCar = new ArrayList<>();
         for (Car car : this.carsOnRoad) {
             if (car.getSpeed() > 0) {
                 positiveCar.add(car);
@@ -202,7 +202,7 @@ public class Road {
     }
 
     public ArrayList<Car> getNegativeCar() {//cars that move from end to the start of the road
-        ArrayList<Car> negativeCar = new ArrayList<Car>();
+        ArrayList<Car> negativeCar = new ArrayList<>();
         for (Car car : this.carsOnRoad) {
             if (car.getSpeed() < 0) {
                 negativeCar.add(car);
